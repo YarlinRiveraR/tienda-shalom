@@ -1,7 +1,7 @@
 <!-- copyright section start -->
 <div class="copyright_section">
   <div class="container">
-    <p class="copyright_text">© <?php echo date('Y'); ?> <a href="#"></a></p>
+    <p class="copyright_text">Shalompijamas © <?php echo date('Y'); ?> TODOS LOS DERECHOS RESERVADOS <a href="#"></a></p>
   </div>
 </div>
 <!-- copyright section end -->
@@ -44,6 +44,30 @@
     </div>
   </div>
 </div>
+
+ <!-- Botón de WhatsApp -->
+ <div id="whatsapp-button">
+      <a href="https://wa.me/+573004413069?text=¡Chatea Conmigo!" target="_blank">
+          <img src="<?php echo BASE_URL . 'assets/images/whatsapp.jpg'; ?>">
+      </a>
+    </div>
+    <style>
+    #whatsapp-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    #whatsapp-button img {
+      width: 70px; /* Ajusta el tamaño del icono según sea necesario */
+      height: 70px;
+      border-radius: 50%; /* Hace el icono circular, si el icono es cuadrado */
+    }
+  </style>
+
+
+    
 
 <!-- Login directo -->
 
