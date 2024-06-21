@@ -88,11 +88,9 @@
          <div class="container">
             <div class="containt_main">          
                <div id="mySidenav" class="sidenav">
-                  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                  <?php foreach ($data['categorias'] as $categoria) { ?>
-                     <a href="#categoria_<?php echo $categoria['id']; ?>"><?php echo $categoria['categoria']; ?></a>
-                  <?php } ?>
-               </div>
+               <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                    <a href="<?php echo BASE_URL; ?>">INICIO</a>
+                </div>
                <span class="toggle_icon" onclick="openNav()"><img src="<?php echo BASE_URL; ?>assets/principal/images/toggle-icon.png"></span>
 
                
@@ -102,6 +100,7 @@
                   <!-- Another variation with a button -->
                   <div class="input-group">
                      <input type="text" class="form-control" placeholder="¿Qué estas buscando?" id="search">
+                     
                      <div class="input-group-append">
                         <button class="btn btn-secondary" type="button" style="background-color: #f26522; border-color:#f26522 ">
                            <i class="fa fa-search"></i>

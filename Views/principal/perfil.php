@@ -24,6 +24,7 @@
                                                         <th>#</th>
                                                         <th>Producto</th>
                                                         <th>Precio</th>
+                                                        <th>Talla</th>
                                                         <th>Cantidad</th>
                                                         <th>SubTotal</th>
                                                     </tr>

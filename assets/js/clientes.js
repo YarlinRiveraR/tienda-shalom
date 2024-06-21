@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function getListaProductos() {
+    const miTalla = JSON.parse(localStorage.getItem('listaCarrito'));
     let html = '';
     const url = base_url + 'principal/listaProductos';
     const http = new XMLHttpRequest();
@@ -37,17 +38,20 @@ function getListaProductos() {
         if (this.readyState == 4 && this.status == 200) {
             const res = JSON.parse(this.responseText);
             if (res.totalPaypal > 0) {
-                res.productos.forEach(producto => {
+                // Reemplazar el forEach con un bucle for
+                for (let i = 0; i < res.productos.length; i++) {
+                    const producto = res.productos[i];
                     html += `<tr>
                         <td>
                             <img class="img-thumbnail rounded-circle" src="${producto.imagen}" alt="" width="100">
-                            </td>
-                            <td>${producto.nombre}</td>
-                            <td><span class="badge bg-warning">${res.moneda + ' ' + producto.precio}</span></td>
-                            <td><span class="badge bg-primary"><h3>${producto.cantidad}</h3></span></td>
-                            <td>${producto.subTotal}</td>
-                        </tr>`;
-                    //agregrar producto para paypal
+                        </td>
+                        <td>${producto.nombre}</td>
+                        <td><span class="badge bg-warning">${res.moneda + ' ' + producto.precio}</span></td>
+                        <td>${miTalla[i].talla}</td>
+                        <td><span class="badge bg-primary"><h3>${producto.cantidad}</h3></span></td>
+                        <td>${producto.subTotal}</td>
+                    </tr>`;
+                    // Agregar producto para PayPal
                     let json = {
                         "name": producto.nombre,
                         /* Shows within upper-right dropdown during payment approval */
@@ -58,7 +62,7 @@ function getListaProductos() {
                         "quantity": producto.cantidad
                     }
                     productosjson.push(json);
-                });
+                }
                 console.log(res.totalPaypal);
                 tableLista.innerHTML = html;
                 document.querySelector('#totalProducto').textContent = 'TOTAL A PAGAR: ' + res.moneda + ' ' + res.total;
@@ -70,7 +74,6 @@ function getListaProductos() {
                 </tr>
                 `;
             }
-
         }
     }
 }

@@ -5,7 +5,7 @@ const USER = "root";
 const PASS = "";
 const DB = "tienda-online";
 const CHARSET = "charset=utf8";
-const TITLE = "TIENDA ONLINE";
+const TITLE = "Shalom Pijamas";
 const MONEDA = "USD";
 const CLIENT_ID = "AQHEaKqx7wGj892mdHzChyAoHtUBbttQB0cGRdSenDHd60EUpBAfb-5oZ8XTnc83wPPKticfsAAtwN2E";
 

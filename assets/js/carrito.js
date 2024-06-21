@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 //agregar productos al carrito
-function agregarCarrito(idProducto, cantidad) {
+function agregarCarrito(idProducto, cantidad, talla) {
     if (localStorage.getItem("listaCarrito") == null) {
         listaCarrito = [];
     } else {
@@ -40,6 +40,7 @@ function agregarCarrito(idProducto, cantidad) {
     listaCarrito.push({
         idProducto: idProducto,
         cantidad: cantidad,
+        talla: talla,
     });
     localStorage.setItem("listaCarrito", JSON.stringify(listaCarrito));
     alertaPerzanalizada("PRODUCTO AGREGADO AL CARRITO", "success")
@@ -57,6 +58,7 @@ function cantidadCarrito() {
 
 //ver carrito
 function getListaCarrito() {
+    const miTalla = JSON.parse(localStorage.getItem('listaCarrito'));
     const url = base_url + 'principal/listaProductos';
     const http = new XMLHttpRequest();
     http.open('POST', url, true);
@@ -65,13 +67,17 @@ function getListaCarrito() {
         if (this.readyState == 4 && this.status == 200) {
             const res = JSON.parse(this.responseText);
             let html = '';
-            res.productos.forEach(producto => {
+
+            // Reemplazar el forEach con un bucle for
+            for (let i = 0; i < res.productos.length; i++) {
+                const producto = res.productos[i];
                 html += `<tr>
                     <td>
                     <img class="img-thumbnail" src="${base_url + producto.imagen}" alt="" width="100">
                     </td>
                     <td>${producto.nombre}</td>
                     <td><span class="badge bg-warning">${res.moneda + ' ' + producto.precio}</span></td>
+                    <td>${miTalla[i].talla}</td>
                     <td width="100">
                     <input type="number" class="form-control agregarCantidad" id="${producto.id}" value="${producto.cantidad}">
                     </td>
@@ -80,7 +86,8 @@ function getListaCarrito() {
                     <button class="btn btn-danger btnDeletecart" type="button" prod="${producto.id}"><i class="fas fa-times-circle"></i></button>
                     </td>
                 </tr>`;
-            });
+            }
+
             tableListaCarrito.innerHTML = html;
             document.querySelector('#totalGeneral').textContent = res.total;
             btnEliminarCarrito();

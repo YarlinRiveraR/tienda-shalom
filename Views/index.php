@@ -9,26 +9,58 @@
   <div class="fashion_section">
     <div class="container" id="categoria_<?php echo $categoria['id']; ?>">
       <h1 class="fashion_taital text-uppercase"><?php echo $categoria['categoria']; ?></h1>
+      <p><?php echo $categoria['descripcion']; ?></p>
       <div class="row <?php echo (count($categoria['productos']) > 0) ? 'multiple-items' : ''; ?>">
-        <?php foreach ($categoria['productos'] as $producto) { ?>
+        <?php foreach ($categoria['productos'] as $producto) { ?>  
           <div class="<?php echo (count($categoria['productos']) > 2) ? 'col-lg-4' : 'col-lg-12'; ?>">
-            <div class="box_main">
-              <h4 class="shirt_text"><?php echo $producto['nombre']; ?></h4>
-              <p class="price_text">Precio <span style="color: #262626;">$ <?php echo $producto['precio']; ?></span></p>
+          <div class="card-prod mb-4 product-wap rounded-0">
+          <div class="box_main card">
               <div class="text-center">
                 <img data-lazy="<?php echo BASE_URL . $producto['imagen']; ?>" />
               </div>
-              <div class="btn_main">
-                <div class="buy_bt"><a href="#" class="btnAddcarrito" prod="<?php echo $producto['id']; ?>">Añadir</a></div>
-                <div class="seemore_bt"><a href="#">Leer más</a></div>
-              </div>
+              <!-- <div class="btn_main"> -->
+                  <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                    <ul class="list-unstyled">
+                      <li><a class="btn btn-success text-white mt-2" href="<?php echo BASE_URL . 'principal/detail/' . $producto['id']; ?>"><i class="fas fa-eye"></i></a></li>
+                      <li><a class="btn btn-success text-white mt-2 btnAddcarrito" href="#" prod="<?php echo $producto['id']; ?>"><i class="fas fa-cart-plus"></i></a></li>
+                    </ul>
+                  </div>
+              <!-- </div> -->
             </div>
+            <div class="card-body">
+              <h4 class="shirt_text"><?php echo $producto['nombre']; ?></h4>
+              <p class="text-center mb-0"><span style="color: #262626;">$ <?php echo $producto['precio'] . ' ' . MONEDA; ?></span></p>
+            </div>
+          </div>
           </div>
         <?php } ?>
       </div>
     </div>
   </div>
 <?php } ?>
+
+<style>
+  /* Ocultar los iconos inicialmente */
+  .product-overlay {
+    display: none;
+  }
+
+  /* Mostrar los iconos cuando se hace hover sobre la tarjeta del producto */
+  .card-prod:hover .product-overlay {
+    display: flex;
+  }
+
+  /* Asegurarse de que los iconos estén centrados */
+  .product-overlay {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+
 
 <?php include_once 'Views/template/footer-principal.php'; ?>
 

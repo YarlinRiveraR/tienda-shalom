@@ -1,10 +1,57 @@
 <!-- copyright section start -->
 <div class="copyright_section">
   <div class="container">
-    <p class="copyright_text">Shalompijamas © <?php echo date('Y'); ?> TODOS LOS DERECHOS RESERVADOS <a href="#"></a></p>
+    <!-- Social Media Icons -->
+    <div class="social_media_icons text-center mb-3">
+      <p>REDES SOCIALES</p>
+      <a href="https://www.instagram.com" target="_blank" class="social_icon"><i class="fab fa-instagram"></i></a>
+    </div>
+
+    <!-- Divisoria -->
+    <hr class="social_divider">
+
+    <div class="footer_content d-flex align-items-center justify-content-start">
+    <!-- Logo -->
+      <div class="footer_logo">
+        <img src="<?php echo BASE_URL . 'assets/images/logo_sistemas.jpg'; ?>" alt="Logo" width="70">
+      </div>
+      <p class="copyright_text mb-0 ml-3">Shalompijamas © <?php echo date('Y'); ?> TODOS LOS DERECHOS RESERVADOS <a href="#"></a></p>
+    </div>
   </div>
 </div>
 <!-- copyright section end -->
+
+<!-- CSS for social media icons and logo -->
+<style>
+  .copyright_section {
+    padding: 20px 0;
+  }
+
+  .social_icon {
+    color: #ddd;
+    font-size: 50px;
+  }
+
+  .social_icon:hover {
+    color: #007bff;
+  }
+
+  .social_divider {
+    margin: 15px 0; 
+    border-top: 1px solid #ddd;
+  }
+
+  .footer_content {
+    display: flex;
+  }
+
+  .footer_logo img {
+    width: 200px;
+    height: auto;
+  }  
+</style>
+
+
 
 <div class="modal fade" id="modalCarrito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -23,6 +70,7 @@
                 <th>#</th>
                 <th>Producto</th>
                 <th>Precio</th>
+                <th>Talla</th>
                 <th>Cantidad</th>
                 <th>SubTotal</th>
                 <th></th>
@@ -171,3 +219,7 @@
 </script>
 <script src="<?php echo BASE_URL; ?>assets/js/carrito.js"></script>
 <script src="<?php echo BASE_URL; ?>assets/js/login.js"></script>
+
+
+
+
