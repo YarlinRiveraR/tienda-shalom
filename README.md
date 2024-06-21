@@ -7,5 +7,5 @@ Instalación de Phpmailer
 ```
     
 ## Credenciales de acceso
-- Email: angelsifuentes2580@gmail.com
+- Email: shalom.pijamas.notificaciones@gmail.com
 - Clave: 12345

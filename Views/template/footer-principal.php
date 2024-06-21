@@ -15,7 +15,7 @@
       <div class="footer_logo">
         <img src="<?php echo BASE_URL . 'assets/images/logo_sistemas.jpg'; ?>" alt="Logo" width="70">
       </div>
-      <p class="copyright_text mb-0 ml-3">Shalompijamas © <?php echo date('Y'); ?> TODOS LOS DERECHOS RESERVADOS <a href="#"></a></p>
+      <p class="copyright_text mb-0 ml-3">Shalompijamas © <?php echo date('Y'); ?> TODOS LOS DERECHOS RESERVADOS<a href="#"></a></p>
     </div>
   </div>
 </div>
@@ -180,6 +180,7 @@
 <!-- sidebar -->
 <script src="<?php echo BASE_URL; ?>assets/principal/js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="<?php echo BASE_URL; ?>assets/principal/slick/slick.min.js"></script>
+<script src="<?php echo BASE_URL; ?>assets/js/templatemo.js"></script>
 <script src="<?php echo BASE_URL; ?>assets/principal/js/custom.js"></script>
 <script src="<?php echo BASE_URL; ?>assets/js/all.min.js"></script>
 <script src="<?php echo BASE_URL; ?>assets/js/sweetalert2.all.min.js"></script>

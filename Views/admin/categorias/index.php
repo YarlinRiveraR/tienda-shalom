@@ -10,6 +10,7 @@
                     <tr>
                         <th>#</th>
                         <th>Nombre</th>
+                        <th>Descripción</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -35,6 +36,10 @@
                     <div class="input-group input-group-outline my-3">
                         <label class="form-label" for="categoria">Nombre</label>
                         <input id="categoria" class="form-control" type="text" name="categoria">
+                    </div>
+                    <div class="input-group input-group-outline my-3">
+                        <label class="form-label" for="descripcion">Descripción</label>
+                        <input id="descripcion" class="form-control" type="text" name="descripcion">
                     </div>
                 </div>
                 <div class="modal-footer">

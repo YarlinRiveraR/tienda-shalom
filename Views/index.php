@@ -22,12 +22,11 @@
                   <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                     <ul class="list-unstyled">
                       <li><a class="btn btn-success text-white mt-2" href="<?php echo BASE_URL . 'principal/detail/' . $producto['id']; ?>"><i class="fas fa-eye"></i></a></li>
-                      <li><a class="btn btn-success text-white mt-2 btnAddcarrito" href="#" prod="<?php echo $producto['id']; ?>"><i class="fas fa-cart-plus"></i></a></li>
                     </ul>
                   </div>
               <!-- </div> -->
             </div>
-            <div class="card-body">
+            <div class="box_main card-body">
               <h4 class="shirt_text"><?php echo $producto['nombre']; ?></h4>
               <p class="text-center mb-0"><span style="color: #262626;">$ <?php echo $producto['precio'] . ' ' . MONEDA; ?></span></p>
             </div>

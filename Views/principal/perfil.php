@@ -1,4 +1,4 @@
-<?php include_once 'Views/template/header-principal.php'; ?>
+<?php include_once 'Views/template/header-secundario.php'; ?>
 
 <!-- Start Content -->
 <div class="container py-5">

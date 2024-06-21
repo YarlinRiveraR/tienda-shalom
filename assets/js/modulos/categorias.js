@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
         columns: [
             { data: "id" },
             { data: "categoria" },
+            { data: "descripcion" },
             { data: "accion" }
         ],
         language,
@@ -90,6 +91,7 @@ function editCat(idCat) {
             const res = JSON.parse(this.responseText);
             document.querySelector('#id').value = res.id;
             document.querySelector('#categoria').value = res.categoria;
+            document.querySelector('#descripcion').value = res.descripcion;
             btnAccion.textContent = 'Actualizar';
             titleModal.textContent = "MODIFICAR CATEGORIA";
             myModal.show();
