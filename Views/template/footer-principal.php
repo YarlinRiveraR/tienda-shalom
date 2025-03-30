@@ -1,10 +1,30 @@
 <!-- copyright section start -->
-<div class="copyright_section">
+<div class="footer_section">
   <div class="container">
-    <!-- Social Media Icons -->
-    <div class="social_media_icons text-center mb-3">
-      <p>REDES SOCIALES</p>
-      <a href="https://www.instagram.com" target="_blank" class="social_icon"><i class="fab fa-instagram"></i></a>
+    <div class="row">
+      <!-- Contact and Location -->
+      <div class="col-md-4">
+        <h5>Shalom Pijamas</h5>
+        <p><i class="fas fa-map-marker-alt"></i> Calle 4N #7E-30 Los Pinos</p>
+        <p><i class="fas fa-phone"></i> +57 300 4413069</p>
+        <p><i class="fas fa-envelope"></i> yacquelinepa6045@gmail.com</p>
+      </div>
+
+      <!-- Enlaces de Colecciones -->
+      <div class="col-md-4 text-center">
+        <h5>Colecciones</h5>
+        <p><a href="<?php echo BASE_URL; ?>" class="footer_link">INICIO</a></p>
+        <?php foreach ($data['categorias'] as $categoria) { ?>
+          <p><a href="#categoria_<?php echo $categoria['id']; ?>" class="footer_link"><?php echo $categoria['categoria']; ?></a></p>
+        <?php } ?>
+      </div>
+
+      <!-- Íconos de Redes sociales -->
+      <div class="col-md-4 text-center">
+        <h5>Redes Sociales</h5>
+        <a href="https://www.instagram.com/pijamas__shalom?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="social_icon"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/reel/6137300836308507?sfnsn=scwspwa&mibextid=5xHrnq" target="_blank" class="social_icon"><i class="fab fa-facebook"></i></a>
+      </div>
     </div>
 
     <!-- Divisoria -->
@@ -21,15 +41,27 @@
 </div>
 <!-- copyright section end -->
 
-<!-- CSS for social media icons and logo -->
+<!-- CSS for footer -->
 <style>
-  .copyright_section {
+  .footer_section {
     padding: 20px 0;
+    background-color: #333;
+    color: #ddd;
+  }
+
+  .footer_section h5 {
+    color: #fff;
+    margin-bottom: 15px;
+  }
+
+  .footer_section p {
+    margin: 5px 0;
   }
 
   .social_icon {
     color: #ddd;
-    font-size: 50px;
+    font-size: 30px;
+    margin: 0 10px;
   }
 
   .social_icon:hover {
@@ -37,19 +69,32 @@
   }
 
   .social_divider {
-    margin: 15px 0; 
+    margin: 20px 0;
     border-top: 1px solid #ddd;
   }
 
-  .footer_content {
-    display: flex;
+  .footer_link {
+    color: #ddd;
+    text-decoration: none;
+    display: block;
+    margin: 5px 0;
   }
 
+  .footer_link:hover {
+    color: #007bff;
+  }
+
+  .footer_content {
+    margin-top: 20px;
+  }
+  
   .footer_logo img {
     width: 200px;
     height: auto;
   }  
 </style>
+
+
 
 
 
@@ -93,29 +138,31 @@
   </div>
 </div>
 
- <!-- Botón de WhatsApp -->
- <div id="whatsapp-button">
-      <a href="https://wa.me/+573004413069?text=¡Chatea Conmigo!" target="_blank">
-          <img src="<?php echo BASE_URL . 'assets/images/whatsapp.jpg'; ?>">
+<!-- Botón de WhatsApp -->
+<div id="whatsapp-button">
+  <a href="https://wa.me/+573004413069?text=¡Chatea Conmigo!" target="_blank">
+    <img src="<?php echo BASE_URL . 'assets/images/whatsapp.jpg'; ?>">
       </a>
-    </div>
-    <style>
-    #whatsapp-button {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1000;
-    }
+</div>
+<style>
+  #whatsapp-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
 
-    #whatsapp-button img {
-      width: 70px; /* Ajusta el tamaño del icono según sea necesario */
-      height: 70px;
-      border-radius: 50%; /* Hace el icono circular, si el icono es cuadrado */
-    }
-  </style>
+  #whatsapp-button img {
+    width: 70px;
+    /* Ajusta el tamaño del icono según sea necesario */
+    height: 70px;
+    border-radius: 50%;
+    /* Hace el icono circular, si el icono es cuadrado */
+  }
+</style>
 
 
-    
+
 
 <!-- Login directo -->
 
@@ -129,10 +176,8 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <div class="text-center">
-          <img class="img-thumbnail rounded-circle" src="<?php echo BASE_URL . 'assets/img/logo.png'; ?>" alt="" width="100">
-        </div>
         <div class="row">
+          <!-- Formulario de Login -->
           <div class="col-md-12" id="frmLogin">
             <div class="form-group mb-3">
               <label for="correoLogin"><i class="fas fa-envelope"></i> Correo</label>
@@ -143,6 +188,9 @@
               <input id="claveLogin" class="form-control" type="text" name="claveLogin" placeholder="Contraseña">
             </div>
             <a href="#" id="btnRegister">Todavia no tienes una cuenta?</a>
+            <div class="text-left">
+              <a href="#" id="btnForgot">Olvidaste tu contraseña</a>
+            </div>
             <div class="float-right">
               <button class="btn btn-primary" type="button" id="login">Login</button>
             </div>
@@ -166,6 +214,33 @@
               <button class="btn btn-primary" type="button" id="registrarse">Registrarse</button>
             </div>
           </div>
+          <!-- NEW!!! -->
+          <!-- formulario de solicitud de recuperación (enviar correo) -->
+          <div class="col-md-12 d-none" id="frmRecuperarPass">            
+            <div class="form-group mb-3">
+              <label for="correoRecuperar"><i class="fas fa-envelope"></i> Correo</label>
+              <input id="correoRecuperar" class="form-control" type="email" name="correoRecuperar" placeholder="Correo Electrónico">
+            </div>            
+            <a href="#" id="btnVolverLogin">Volver al incio de sesión</a>
+            <div class="float-right">
+              <button class="btn btn-primary" type="button" id="btnRecuperar">Recuperar contraseña</button>
+            </div>
+          </div>
+          <!-- formulario de restablecimiento de nueva contraseña -->
+          <div class="col-md-12 d-none" id="frmRecuperarNewPass">            
+            <div class="form-group mb-3">
+              <label for="new_password"><i class="fas fa-key"></i> Nueva Contraseña</label>
+              <input id="new_password" class="form-control" type="password" name="new_password" placeholder="Nueva Contraseña">
+            </div>
+            <div class="form-group mb-3">
+              <label for="confirm_password"><i class="fas fa-key"></i> Confirmar Nueva Contraseña</label>
+              <input id="confirm_password" class="form-control" type="password" name="confirm_password" placeholder="Confirmar Nueva Contraseña">
+            </div>
+            <div class="float-right">
+              <button class="btn btn-primary" type="button" id="btnRecuperarNew">Restablecer Contraseña</button>
+            </div>
+          </div>
+          
         </div>
       </div>
 
@@ -220,7 +295,3 @@
 </script>
 <script src="<?php echo BASE_URL; ?>assets/js/carrito.js"></script>
 <script src="<?php echo BASE_URL; ?>assets/js/login.js"></script>
-
-
-
-

@@ -1,6 +1,7 @@
 <?php
 class Categorias extends Controller
 {
+    // Constructor que inicia la sesión del usuario y verifica si está logueado como admin
     public function __construct()
     {
         parent::__construct();
@@ -10,11 +11,15 @@ class Categorias extends Controller
             exit;
         }
     }
+
+    //muestra la vista principal de categorías
     public function index()
     {
         $data['title'] = 'categorias';
         $this->views->getView('admin/categorias', "index", $data);
     }
+
+    //listar todas las categorías de la tienda
     public function listar()
     {
         $data = $this->model->getCategorias(1);
@@ -28,18 +33,21 @@ class Categorias extends Controller
         die();
     }
 
+    //registrar o modificar una categoría
     public function registrar()
     {
         if (isset($_POST['categoria'])) {
             $categoria = $_POST['categoria'];
+            $descripcion = $_POST['descripcion'];
             $id = $_POST['id'];
             if (empty($_POST['categoria'])) {
                 $respuesta = array('msg' => 'todo los campos son requeridos', 'icono' => 'warning');
-            } else {               
+            } else {  
+                //registrar             
                 if (empty($id)) {
                     $result = $this->model->verificarCategoria($categoria);
                     if (empty($result)) {
-                        $data = $this->model->registrar($categoria);
+                        $data = $this->model->registrar($categoria, $descripcion);
                         if ($data > 0) {
                             $respuesta = array('msg' => 'categoria registrado', 'icono' => 'success');
                         } else {
@@ -48,10 +56,11 @@ class Categorias extends Controller
                     } else {
                         $respuesta = array('msg' => 'correo ya existe', 'icono' => 'warning');
                     }
+                //modoficar
                 } else {
-                    $data = $this->model->modificar($categoria, $id);
+                    $data = $this->model->modificar($categoria, $descripcion, $id);
                     if ($data == 1) {
-                        $respuesta = array('msg' => 'categoria modificado', 'icono' => 'success');
+                        $respuesta = array('msg' => 'categoria modificado', 'icono' => 'success');                        
                     } else {
                         $respuesta = array('msg' => 'error al modificar', 'icono' => 'error');
                     }
@@ -61,7 +70,7 @@ class Categorias extends Controller
         }
         die();
     }
-    //eliminar cat
+    //eliminar categoria por su Id
     public function delete($idCat)
     {
         if (is_numeric($idCat)) {
@@ -77,7 +86,7 @@ class Categorias extends Controller
         echo json_encode($respuesta);
         die();
     }
-    //editar cat
+    //obtener los datos de una categoría específica por su ID (editar)
     public function edit($idCat)
     {
         if (is_numeric($idCat)) {

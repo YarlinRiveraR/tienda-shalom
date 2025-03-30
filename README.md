@@ -6,5 +6,4 @@ Instalación de Phpmailer
   composer install
 ```
     
-## Credenciales de acceso
-- Email: shalom.pijamas.notificaciones@gmail.com
+

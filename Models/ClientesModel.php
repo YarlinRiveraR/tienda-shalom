@@ -45,12 +45,12 @@ class ClientesModel extends Query{
     }
 
     public function registrarPedido($id_transaccion, $monto, $estado, $fecha, $email,
-    $nombre, $apellido, $direccion, $ciudad, $id_cliente)
+    $nombre, $id_cliente)
     {
         $sql = "INSERT INTO pedidos (id_transaccion, monto, estado, fecha, email,
-        nombre, apellido, direccion, ciudad, id_cliente) VALUES (?,?,?,?,?,?,?,?,?,?)";
+        nombre, id_cliente) VALUES (?,?,?,?,?,?,?)";
         $datos = array($id_transaccion, $monto, $estado, $fecha, $email,
-        $nombre, $apellido, $direccion, $ciudad, $id_cliente);
+        $nombre, $id_cliente);
         $data = $this->insertar($sql, $datos);
         if ($data > 0) {
             $res = $data;
@@ -90,6 +90,32 @@ class ClientesModel extends Query{
     {
         $sql = "SELECT d.* FROM pedidos p INNER JOIN detalle_pedidos d ON p.id = d.id_pedido WHERE p.id = $idPedido";
         return $this->selectAll($sql);
+    }
+
+    //NEW!!!
+    // Actualiza el token de recuperación para el cliente
+    public function updateToken($correo, $token) {
+        $sql = "UPDATE clientes SET token = ? WHERE correo = ?";
+        $datos = array($token, $correo);
+        return $this->save($sql, $datos);
+    }
+
+    // Obtiene el cliente a partir del token
+    public function getClienteByToken($token) {
+        $sql = "SELECT * FROM clientes WHERE token = ?";
+        return $this->select($sql, [$token]);
+    }
+
+    // Actualiza la contraseña del cliente
+    public function updatePassword($correo, $hashedPassword) {
+        $sql = "UPDATE clientes SET clave = ? WHERE correo = ?";
+        return $this->save($sql, [$hashedPassword, $correo]);
+    }
+
+    // Limpia el token (lo pone en NULL) para el cliente
+    public function clearToken($correo) {
+        $sql = "UPDATE clientes SET token = NULL WHERE correo = ?";
+        return $this->save($sql, [$correo]);
     }
 }
  

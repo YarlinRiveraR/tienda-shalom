@@ -15,6 +15,8 @@ class Pedidos extends Controller
         $data['title'] = 'pedidos';
         $this->views->getView('admin/pedidos', "index", $data);
     }
+        
+    //Lista los pedidos iniciados que hicieron los clientes
     public function listarPedidos()
     {
         $data = $this->model->getPedidos(1);
@@ -27,6 +29,7 @@ class Pedidos extends Controller
         echo json_encode($data);
         die();
     }
+    //Lista los pedidos aprobados para estar en proceso por el administrador
     public function listarProceso()
     {
         $data = $this->model->getPedidos(2);
@@ -39,6 +42,8 @@ class Pedidos extends Controller
         echo json_encode($data);
         die();
     }
+
+    //Lista los pedidos aprobados para estar finalizados por el administrador
     public function listarFinalizados()
     {
         $data = $this->model->getPedidos(3);

@@ -1,4 +1,7 @@
 <?php
+
+require_once 'Config/Helpers/currency_helper.php';
+
 class Productos extends Controller
 {
     public function __construct()
@@ -6,7 +9,7 @@ class Productos extends Controller
         parent::__construct();
         session_start();
         if (empty($_SESSION['nombre_usuario'])) {
-            header('Location: '. BASE_URL . 'admin');
+            header('Location: ' . BASE_URL . 'admin');
             exit;
         }
     }
@@ -18,11 +21,13 @@ class Productos extends Controller
     }
     public function listar()
     {
+        // Obtiene los productos activos (estado 1) desde el modelo
         $data = $this->model->getProductos(1);
+
+        // Itera sobre cada producto y agrega la imagen y las acciones de edición y eliminación
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['imagen'] = '<img class="img-thumbnail" src="' . $data[$i]['imagen'] . '" alt="' . $data[$i]['nombre'] . '" width="50">';
             $data[$i]['accion'] = '<div class="d-flex">
-            <button class="btn btn-success" type="button" onclick="agregarImagenes(' . $data[$i]['id'] . ')"><i class="fas fa-images"></i></button>
             <button class="btn btn-primary" type="button" onclick="editPro(' . $data[$i]['id'] . ')"><i class="fas fa-edit"></i></button>
             <button class="btn btn-danger" type="button" onclick="eliminarPro(' . $data[$i]['id'] . ')"><i class="fas fa-trash"></i></button>
         </div>';
@@ -33,9 +38,10 @@ class Productos extends Controller
 
     public function registrar()
     {
+        // Verifica si los campos 'nombre' y 'precio' están presentes en la solicitud POST
         if (isset($_POST['nombre']) && isset($_POST['precio'])) {
             $nombre = $_POST['nombre'];
-            $precio = $_POST['precio'];
+            $precio = formatearMoneda($_POST['precio']);
             $cantidad = $_POST['cantidad'];
             $descripcion = $_POST['descripcion'];
             $categoria = $_POST['categoria'];
@@ -44,9 +50,12 @@ class Productos extends Controller
             $id = $_POST['id'];
             $ruta = 'assets/images/productos/';
             $nombreImg = date('YmdHis');
+
+            // Verifica si los campos 'nombre', 'precio' o 'cantidad' están vacíos
             if (empty($nombre) || empty($precio) || empty($cantidad)) {
                 $respuesta = array('msg' => 'todo los campos son requeridos', 'icono' => 'warning');
             } else {
+                // Determina la ruta de la imagen a guardar
                 if (!empty($imagen['name'])) {
                     $destino = $ruta . $nombreImg . '.jpg';
                 } else if (!empty($_POST['imagen_actual']) && empty($imagen['name'])) {
@@ -54,6 +63,8 @@ class Productos extends Controller
                 } else {
                     $destino = $ruta . 'default.png';
                 }
+
+                // Si el campo 'id' está vacío, intenta registrar un nuevo producto
                 if (empty($id)) {
                     $data = $this->model->registrar($nombre, $descripcion, $precio, $cantidad, $destino, $categoria);
                     if ($data > 0) {
@@ -65,6 +76,7 @@ class Productos extends Controller
                         $respuesta = array('msg' => 'error al registrar', 'icono' => 'error');
                     }
                 } else {
+                    // Si el campo 'id' no está vacío, intenta modificar un producto existente
                     $data = $this->model->modificar($nombre, $descripcion, $precio, $cantidad, $destino, $categoria, $id);
                     if ($data == 1) {
                         if (!empty($imagen['name'])) {
@@ -80,14 +92,17 @@ class Productos extends Controller
         }
         die();
     }
-    //eliminar pro
+    //eliminar productos
     public function delete($idPro)
     {
         if (is_numeric($idPro)) {
+            // Se intenta eliminar el producto a través del modelo
             $data = $this->model->eliminar($idPro);
             if ($data == 1) {
+                // Si la eliminación es exitosa, se prepara una respuesta de éxito
                 $respuesta = array('msg' => 'producto dado de baja', 'icono' => 'success');
             } else {
+                // Si ocurre un error al eliminar, se prepara una respuesta de error
                 $respuesta = array('msg' => 'error al eliminar', 'icono' => 'error');
             }
         } else {
@@ -96,11 +111,13 @@ class Productos extends Controller
         echo json_encode($respuesta);
         die();
     }
-    //editar pro
+    //editar productos
     public function edit($idPro)
     {
         if (is_numeric($idPro)) {
+            // Se obtienen los datos del producto desde el modelo
             $data = $this->model->getProducto($idPro);
+            // Se envían los datos del producto como JSON para ser consumidos por el frontend
             echo json_encode($data, JSON_UNESCAPED_UNICODE);
         }
         die();
@@ -109,11 +126,20 @@ class Productos extends Controller
     public function galeriaImagenes()
     {
         $id = $_POST['idProducto'];
+
+        // Se establece el nombre de la carpeta para las imágenes del producto
         $folder_name = 'assets/images/productos/' . $id . '/';
+
+        // Se verifica si hay archivos en la solicitud
         if (!empty($_FILES)) {
+
+            // Si la carpeta no existe, se crea para almacenar las imágenes del producto
             if (!file_exists($folder_name)) {
                 mkdir($folder_name);
             }
+
+            // Se mueve el archivo cargado a la carpeta del producto, asegurando que cada 
+            //archivo tenga un nombre único basado en la fecha y hora actual
             $temp_name = $_FILES['file']['tmp_name'];
             $ruta = $folder_name . date('YmdHis') . $_FILES['file']['name'];
             move_uploaded_file($temp_name, $ruta);
@@ -123,12 +149,20 @@ class Productos extends Controller
     public function verGaleria($id_producto)
     {
         $result = array();
+
+        // Se establece el directorio de las imágenes del producto
         $directorio = 'assets/images/productos/' . $id_producto;
         if (file_exists($directorio)) {
+
+            // Se obtiene la lista de archivos en el directorio
             $imagenes = scandir($directorio);
             if (false !== $imagenes) {
                 foreach ($imagenes as $file) {
+
+                    // Se ignoran las entradas '.' y '..' que representan el directorio actual y el directorio padre
                     if ('.' != $file && '..' != $file) {
+
+                        // Se agrega el nombre del archivo a la lista de resultados
                         array_push($result, $file);
                     }
                 }
@@ -140,12 +174,17 @@ class Productos extends Controller
 
     public function eliminarImg()
     {
+        // Se obtiene el cuerpo de la solicitud que contiene los datos enviados en formato JSON
         $datos = file_get_contents('php://input');
+
+        // Se decodifican los datos JSON a un array asociativo
         $json = json_decode($datos, true);
+
+        // Se establece la ruta del archivo a eliminar basado en la URL proporcionada en los datos JSON
         $destino = 'assets/images/productos/' . $json['url'];
         if (unlink($destino)) {
             $res = array('msg' => 'IMAGEN ELIMINADO', 'icono' => 'success');
-        }else{
+        } else {
             $res = array('msg' => 'ERROR AL ELIMINAR', 'icono' => 'error');
         }
         echo json_encode($res);
