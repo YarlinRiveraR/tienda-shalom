@@ -51,7 +51,7 @@ function btnEliminarDeseo() {
 }
 
 //eliminar productos desde la lista de deseos
-function eliminarListaDeseo(idProducto) {
+function eliminarListaDeseo(idProducto, mostrarAlerta = true) {
     for (let i = 0; i < listaDeseo.length; i++) {
         if (listaDeseo[i]['idProducto'] == idProducto) {
             listaDeseo.splice(i, 1);
@@ -60,11 +60,13 @@ function eliminarListaDeseo(idProducto) {
     localStorage.setItem('listaDeseo', JSON.stringify(listaDeseo));
     getListaDeseo();
     cantidadDeseo();
-    Swal.fire(
-        'Aviso?',
-        'PRODUCTO ELIMINADO DE TU LISTA',
-        'success'
-    )
+    if (mostrarAlerta) {
+        Swal.fire(
+            'Aviso?',
+            'PRODUCTO ELIMINADO DE TU LISTA',
+            'success'
+        );
+    }
 }
 
 //agregar productos desde la lista de deseos

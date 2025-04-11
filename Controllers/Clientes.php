@@ -75,6 +75,8 @@ class Clientes extends Controller
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Habilitar cifrado TLS implícito
                 $mail->Port       = PUERTO_SMTP;                                    //Puerto TCP para conectarse; usa 587 si has configurado `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
+                $mail->CharSet = 'UTF-8';
+
                 //Destinatarios
                 $mail->setFrom('pijamas.shalom.notificaciones@gmail.com', TITLE);
                 $mail->addAddress($_POST['correo']);
@@ -215,7 +217,6 @@ class Clientes extends Controller
             echo json_encode($mensaje, JSON_UNESCAPED_UNICODE);
             die();
         } else {
-            // Para solicitudes GET, redirigimos o devolvemos un error
             $mensaje = array('msg' => 'Método no permitido', 'icono' => 'error');
             echo json_encode($mensaje, JSON_UNESCAPED_UNICODE);
             die();
@@ -230,13 +231,11 @@ class Clientes extends Controller
         $pedidos = $json['pedidos'];
         $productos = $json['productos'];
         $total = $json['pedidos']['total'];
+
         if (is_array($pedidos) && is_array($productos)) {
 
             $monto = $total; // Total del pedido calculado en el frontend
-
-
             $id_transaccion = uniqid();
-            // $monto = $pedidos['purchase_units'][0]['amount']['value'];
             $estado = "COMPLETED";
             $fecha = date('Y-m-d H:i:s');
             $email = $_SESSION['correoCliente'];
@@ -251,10 +250,11 @@ class Clientes extends Controller
                 $nombre,
                 $id_cliente
             );
+        
             if ($data > 0) {
                 foreach ($productos as $producto) {
                     $temp = $this->model->getProducto($producto['idProducto']);
-                    $this->model->registrarDetalle($temp['nombre'], formatearMoneda($temp['precio']), $producto['cantidad'], $data, $producto['idProducto']);
+                    $this->model->registrarDetalle($temp['nombre'], ($temp['precio']), $producto['cantidad'], $data, $producto['idProducto']);
                 }
                 $mensaje = array('msg' => 'pedido registrado', 'icono' => 'success');
             } else {

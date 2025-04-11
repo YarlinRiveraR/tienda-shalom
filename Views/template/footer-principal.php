@@ -6,7 +6,7 @@
       <div class="col-md-4">
         <h5>Shalom Pijamas</h5>
         <p><i class="fas fa-map-marker-alt"></i> Calle 4N #7E-30 Los Pinos</p>
-        <p><i class="fas fa-phone"></i> +57 300 4413069</p>
+        <p><i class="fas fa-phone"></i> +57 313 8284564</p>
         <p><i class="fas fa-envelope"></i> yacquelinepa6045@gmail.com</p>
       </div>
 
@@ -140,7 +140,7 @@
 
 <!-- Botón de WhatsApp -->
 <div id="whatsapp-button">
-  <a href="https://wa.me/+573004413069?text=¡Chatea Conmigo!" target="_blank">
+  <a href="https://wa.me/+573138284564?text=¡Chatea Conmigo!" target="_blank">
     <img src="<?php echo BASE_URL . 'assets/images/whatsapp.jpg'; ?>">
       </a>
 </div>
@@ -185,9 +185,9 @@
             </div>
             <div class="form-group mb-3">
               <label for="claveLogin"><i class="fas fa-key"></i> Contraseña</label>
-              <input id="claveLogin" class="form-control" type="text" name="claveLogin" placeholder="Contraseña">
+              <input id="claveLogin" class="form-control" type="password" name="claveLogin" placeholder="Contraseña">
             </div>
-            <a href="#" id="btnRegister">Todavia no tienes una cuenta?</a>
+            <a href="#" id="btnRegister">¿Todavia no tienes una cuenta?</a>
             <div class="text-left">
               <a href="#" id="btnForgot">Olvidaste tu contraseña</a>
             </div>
@@ -207,9 +207,9 @@
             </div>
             <div class="form-group mb-3">
               <label for="claveRegistro"><i class="fas fa-key"></i> Contraseña</label>
-              <input id="claveRegistro" class="form-control" type="text" name="claveRegistro" placeholder="Contraseña">
+              <input id="claveRegistro" class="form-control" type="password" name="claveRegistro" placeholder="Contraseña">
             </div>
-            <a href="#" id="btnLogin">Ya tienes una cuenta?</a>
+            <a href="#" id="btnLogin">¿Ya tienes una cuenta?</a>
             <div class="float-right">
               <button class="btn btn-primary" type="button" id="registrarse">Registrarse</button>
             </div>

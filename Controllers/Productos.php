@@ -41,7 +41,7 @@ class Productos extends Controller
         // Verifica si los campos 'nombre' y 'precio' están presentes en la solicitud POST
         if (isset($_POST['nombre']) && isset($_POST['precio'])) {
             $nombre = $_POST['nombre'];
-            $precio = formatearMoneda($_POST['precio']);
+            $precio = ($_POST['precio']);
             $cantidad = $_POST['cantidad'];
             $descripcion = $_POST['descripcion'];
             $categoria = $_POST['categoria'];

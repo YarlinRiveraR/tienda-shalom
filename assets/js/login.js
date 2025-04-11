@@ -198,16 +198,17 @@ if (resetToken) {
           let html = "";
           res.forEach((producto) => {
             //NEW!!!
-            let precioFormateado = formatearPeso(parseFloat(producto.precio));
+            //let precioFormateado = formatearPeso(parseFloat(producto.precio));
+            let rutaImagen = base_url + producto.imagen;
             html += `<div class="col-12 col-md-4 mb-4">
                     <div class="card h-100">
                       <a href="#">
-                        <img src="${producto.imagen}" class="card-img-top" alt="${producto.nombre}">
+                        <img src="${rutaImagen}" class="card-img-top" alt="${producto.nombre}">
                       </a>
                       <div class="card-body">
                         <a href="#" class="h2 text-decoration-none text-dark">${producto.nombre}</a>
                         <p class="card-text">
-                        ${precioFormateado}
+                        ${producto.precio}
                         </p>
                         <div class="buy_bt">
                           <a href="${base_url}principal/detail/${producto.id}">Ver detalle</a>

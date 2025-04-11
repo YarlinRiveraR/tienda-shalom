@@ -31,15 +31,15 @@ document.addEventListener("DOMContentLoaded", function() {
 function generarMensajeCarrito() {
     const listaCarrito = JSON.parse(localStorage.getItem('listaCarrito')) || [];
     if (listaCarrito.length === 0) {
-        return "El carrito está vacío.";
+        Swal.fire("Aviso", "El carrito está vacío.", "warning");
+        return;
     }
 
     const url = base_url + 'principal/listaProductos';
     const http = new XMLHttpRequest();
     http.open('POST', url, true);
     http.setRequestHeader('Content-Type', 'application/json');
-    http.send(JSON.stringify(listaCarrito));
-
+    
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             const res = JSON.parse(this.responseText);
@@ -54,20 +54,45 @@ function generarMensajeCarrito() {
                 mensaje += `Precio: ${producto.precio} ${res.moneda}\n\n`;
             }
             mensaje += `Total a pagar: ${res.total} ${res.moneda}\n\n`;
-            mensaje += "¿Cuál es el siguiente paso? Por favor, indicame qué métodos de pago aceptan. ¡Gracias! 😊";
+            mensaje += "¿Cuál es el siguiente paso? Por favor, indícame qué métodos de pago aceptan. ¡Gracias! 😊";
             
             // Reemplazar saltos de línea con %0A para WhatsApp
             mensaje = mensaje.replace(/\n/g, '%0A');
 
-            let telefono = "+573004413069"; // Reemplaza esto con el número de teléfono destino
-            let urlWhatsApp = `https://api.whatsapp.com/send?phone=${telefono}&text=${mensaje}`;
-            window.open(urlWhatsApp, '_blank');
+            // Eliminar cualquier espacio en el número de teléfono
+            let telefono = "+573138284564".replace(/\s+/g, '');
+            
+            // Probar primero con el protocolo de aplicación (más confiable en móviles)
+            let urlWhatsApp = `whatsapp://send/?phone=${telefono}&text=${mensaje}`;
+            
+            // Como alternativa, también podemos intentar con la URL web
+            let urlWhatsAppWeb = `https://web.whatsapp.com/send?phone=${telefono}&text=${mensaje}`;
+            
+            // En dispositivos móviles, preferir la aplicación; en desktop, preferir la web
+            if (/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)) {
+                window.location.href = urlWhatsApp;
+            } else {
+                window.open(urlWhatsAppWeb, '_blank');
+            }
+        } else if (this.readyState == 4) {
+            // Manejar error en la solicitud
+            Swal.fire("Error", "No se pudo generar el mensaje del carrito", "error");
         }
-    }
+    };
+    
+    // Enviar la solicitud después de configurar el callback
+    http.send(JSON.stringify(listaCarrito));
 }
 
 btnFinalizarPago.addEventListener('click', function() {
-Swal.fire({
+    // Obtener el carrito actual directamente desde localStorage
+    const carrito = localStorage.getItem('listaCarrito') ? JSON.parse(localStorage.getItem('listaCarrito')) : [];
+    if (carrito.length === 0) {
+        Swal.fire('Aviso?', 'El carrito está vacío. Agrega al menos un producto antes de finalizar tu pedido.', 'warning');
+        return;
+    }
+
+    Swal.fire({
         title: '¿Estás seguro?',
         text: "Este proceso es irreversible",
         icon: 'warning',
@@ -94,7 +119,7 @@ function getListaProductos() {
     http.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             const res = JSON.parse(this.responseText);
-            if (res.totalPaypal > 0) {
+            if (res.total > 0) {
                 // Reemplazar el forEach con un bucle for
                 for (let i = 0; i < res.productos.length; i++) {
                     const producto = res.productos[i];
@@ -143,8 +168,7 @@ function registrarPedido() {
             const res = JSON.parse(this.responseText);
             http.send(JSON.stringify({
                 pedidos: {
-                    total: res.total,
-                    // Agrega otros campos del pedido aquí si es necesario
+                    total: res.total
                 },
                 productos: listaCarrito
             }));
@@ -190,8 +214,8 @@ function verPedido(idPedido) {
             }
             res.productos.forEach(row => {
                 let subTotal = parseFloat(row.precio) * parseInt(row.cantidad);
-                let precioFormato = formatearPeso(parseFloat(row.precio));
-                let subTotalFormato = formatearPeso(subTotal);
+                let precioFormato = (parseFloat(row.precio));
+                let subTotalFormato = (subTotal);
                 html += `<tr>
                     <td>${row.producto}</td>
                     <td><span class="badge bg-warning">${res.moneda + ' ' + precioFormato}</span></td>

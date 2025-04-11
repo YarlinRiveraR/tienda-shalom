@@ -85,24 +85,26 @@ function agregarCarrito(idProducto, cantidad, talla, accion = false) {
     } else {
         let listaExiste = JSON.parse(localStorage.getItem("listaCarrito"));
         for (let i = 0; i < listaExiste.length; i++) {
-            //NEW!!!
-            if (accion) {
-                eliminarListaDeseo(idProducto);
-            }
-            if (listaExiste[i]["idProducto"] == idProducto) {
-                alertaPerzanalizada("EL PRODUCTO YA ESTA AGREGADO", "warning")
+            if (listaExiste[i]["idProducto"] == idProducto && listaExiste[i]["talla"] == talla) {
+                alertaPerzanalizada("EL PRODUCTO YA ESTA AGREGADO CON ESTA TALLA", "warning");
                 return;
             }
         }
         listaCarrito.concat(localStorage.getItem("listaCarrito"));
-    }
+    }    
     listaCarrito.push({
         idProducto: idProducto,
         cantidad: cantidad,
         talla: talla,
     });
+
     localStorage.setItem("listaCarrito", JSON.stringify(listaCarrito));
-    alertaPerzanalizada("PRODUCTO AGREGADO AL CARRITO", "success")
+    alertaPerzanalizada("PRODUCTO AGREGADO AL CARRITO", "success");
+    
+    if (accion) {
+        eliminarListaDeseo(idProducto, false);
+    }
+    
     cantidadCarrito();
 }
 
