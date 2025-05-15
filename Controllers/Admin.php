@@ -38,6 +38,12 @@ class Admin extends Controller
                 $token = md5(uniqid(rand(), true));
                 $update = $this->model->updateToken($correo, $token);
                 if ($update) {
+                    $nombre = $dataUser['nombres'];
+
+                    ob_start();
+                    include __DIR__ . '/../Views/admin/email_cambiarPassword.php';
+                    $htmlBody = ob_get_clean();
+
                     $mail = new PHPMailer(true);
                     try {
                         $mail->SMTPDebug = 0;
@@ -57,8 +63,8 @@ class Admin extends Controller
                         // Contenido del correo
                         $mail->isHTML(true);
                         $mail->Subject = 'Recuperación de Contraseña - ' . TITLE;
-                        $mail->Body    = 'Para recuperar tu contraseña, haz clic en el siguiente enlace: <a href="' . BASE_URL . 'admin/resetPassword/' . $token . '">Recuperar Contraseña</a>';
-                        $mail->AltBody = 'Para recuperar tu contraseña, visita: ' . BASE_URL . 'admin/resetPassword/' . $token;
+                        $mail->Body    = $htmlBody;
+                        $mail->AltBody = 'Visita: ' . BASE_URL . 'admin/resetPassword/' . $token;
 
                         $mail->send();
                         $mensaje = array('msg' => 'Correo enviado. Revisa tu bandeja de entrada.', 'icono' => 'success');
@@ -97,6 +103,15 @@ class Admin extends Controller
             
             $newPassword = $_POST['new_password'];
             $confirmPassword = $_POST['confirm_password'];
+            
+            if (!preg_match('/^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).*$/', $newPassword)) {
+                $data = [
+                    'error' => 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.',
+                    'title' => 'Restablecer Contraseña',
+                    'token' => $token
+                ];
+                return $this->views->getView('admin', 'reset_password', $data);
+            }
             
             if ($newPassword !== $confirmPassword) {
                 $data['error'] = 'Las contraseñas no coinciden.';

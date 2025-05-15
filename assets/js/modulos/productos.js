@@ -1,5 +1,6 @@
 const frm = document.querySelector("#frmRegistro");
 const btnAccion = document.querySelector("#btnAccion");
+const btnCancelar = document.getElementById('btnCancelarEdicion');
 const containerGaleria = document.querySelector("#containerGaleria");
 let tblProductos;
 
@@ -140,6 +141,18 @@ function editPro(idPro) {
         }
     };
 }
+
+btnCancelar.addEventListener('click', () => {
+  frm.reset();
+  frm.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+  frm.querySelectorAll('.input-group-outline').forEach(gp => {
+    gp.classList.remove('focused','is-filled');
+  });
+  btnAccion.textContent = 'Registrar';
+  const tabList = document.querySelector('#myTab button[data-bs-target="#listaProducto"]');
+  if (tabList) new bootstrap.Tab(tabList).show();
+});
+
 
 function agregarImagenes(idPro) {
     const url = base_url + "productos/verGaleria/" + idPro;

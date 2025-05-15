@@ -33,6 +33,21 @@ document.addEventListener("DOMContentLoaded", function() {
     //submit usuarios
     frm.addEventListener("submit", function(e) {
         e.preventDefault();
+
+        if (id) {
+            const nombre   = document.querySelector('#nombre');
+            const apellido = document.querySelector('#apellido');
+            const correo   = document.querySelector('#correo');
+            const originalNombre   = nombre.getAttribute('data-original');
+            const originalApellido = apellido.getAttribute('data-original');
+            const originalCorreo   = correo.getAttribute('data-original');
+            if (nombre.value === originalNombre &&
+                apellido.value === originalApellido &&
+                correo.value === originalCorreo) {
+                return Swal.fire("Aviso?", "NO HAY CAMBIOS PARA GUARDAR", "warning");
+            }
+        }
+
         let data = new FormData(this);
         const url = base_url + "usuarios/registrar";
         const http = new XMLHttpRequest();
@@ -103,6 +118,10 @@ function editUser(idUser) {
             nombreInput.value = res.nombres;
             apellidoInput.value = res.apellidos;
             correoInput.value = res.correo;
+
+            nombreInput.setAttribute('data-original', res.nombres);
+            apellidoInput.setAttribute('data-original', res.apellidos);
+            correoInput.setAttribute('data-original', res.correo);
         
             document.querySelector('#clave').setAttribute('readonly', 'readonly');            
             btnAccion.textContent = 'Actualizar';

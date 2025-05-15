@@ -39,6 +39,10 @@ class Clientes extends Controller
                 $clave = $_POST['clave'];
                 $verificar = $this->model->getVerificar($correo);
                 if (empty($verificar)) {
+                    if (!preg_match('/^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).*$/', $clave)) {
+                        echo json_encode(['msg'=>'La contraseña debe tener al menos 8 caracteres, mayúscula, minúscula, número y carácter especial','icono'=>'warning'], JSON_UNESCAPED_UNICODE);
+                        die();
+                    }
                     $token = md5($correo);
                     $hash = password_hash($clave, PASSWORD_DEFAULT);
                     $data = $this->model->registroDirecto($nombre, $correo, $hash, $token);
@@ -197,6 +201,12 @@ class Clientes extends Controller
                 $token = md5(uniqid(rand(), true));
                 $update = $this->model->updateToken($correo, $token);
                 if ($update) {
+                     $nombre = $cliente['nombre'] ?? 'Cliente';
+
+                    ob_start();
+                    include __DIR__ . '/../Views/principal/email_recuperarContraseña.php';
+                    $htmlBody = ob_get_clean();
+
                     $mail = new PHPMailer(true);
                     try {
                         $mail->SMTPDebug = 0;
@@ -215,7 +225,7 @@ class Clientes extends Controller
 
                         $mail->isHTML(true);
                         $mail->Subject = 'Recuperación de Contraseña - ' . TITLE;
-                        $mail->Body    = 'Para recuperar tu contraseña, haz clic en el siguiente enlace: <a href="' . BASE_URL . '?resetToken=' . $token . '">Recuperar Contraseña</a>';
+                        $mail->Body    = $htmlBody;
                         $mail->AltBody = 'Para recuperar tu contraseña, visita: ' . BASE_URL . '?resetToken=' . $token;
 
                         $mail->send();
@@ -254,6 +264,10 @@ class Clientes extends Controller
             if ($newPassword !== $confirmPassword) {
                 $mensaje = array('msg' => 'Las contraseñas no coinciden.', 'icono' => 'warning');
                 echo json_encode($mensaje, JSON_UNESCAPED_UNICODE);
+                die();
+            }
+            if (!preg_match('/^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).*$/', $newPassword)) {
+                echo json_encode(['msg'=>'La contraseña debe tener al menos 8 caracteres, mayúscula, minúscula, número y carácter especial','icono'=>'warning'], JSON_UNESCAPED_UNICODE);
                 die();
             }
             $hash = password_hash($newPassword, PASSWORD_DEFAULT);

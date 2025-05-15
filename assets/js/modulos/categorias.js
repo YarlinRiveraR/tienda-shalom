@@ -41,6 +41,18 @@ document.addEventListener("DOMContentLoaded", function() {
     //submit categorias
     frm.addEventListener("submit", function(e) {
         e.preventDefault();
+
+         if (document.querySelector('#id').value) {
+            const catIn  = document.querySelector('#categoria');
+            const descIn = document.querySelector('#descripcion');
+            if (
+            catIn.value   === catIn.getAttribute('data-original') &&
+            descIn.value  === descIn.getAttribute('data-original')
+            ) {
+                return Swal.fire('Aviso','NO HAY CAMBIOS PARA GUARDAR','warning');
+            }
+        }
+
         let data = new FormData(this);
         const url = base_url + "categorias/registrar";
         const http = new XMLHttpRequest();
@@ -107,6 +119,9 @@ function editCat(idCat) {
             
             categoriaInput.value = res.categoria;
             descripcionInput.value = res.descripcion;
+
+            categoriaInput.setAttribute('data-original', res.categoria);
+            descripcionInput.setAttribute('data-original', res.descripcion);
             
             btnAccion.textContent = 'Actualizar';
             titleModal.textContent = "MODIFICAR CATEGORIA";
