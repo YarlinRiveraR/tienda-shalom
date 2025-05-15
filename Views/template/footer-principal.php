@@ -140,7 +140,7 @@
 
 <!-- Botón de WhatsApp -->
 <div id="whatsapp-button">
-  <a href="https://wa.me/+573138284564?text=¡Chatea Conmigo!" target="_blank">
+  <a href="https://wa.me/573138284564?text=¡Chatea Conmigo!" target="_blank">
     <img src="<?php echo BASE_URL . 'assets/images/whatsapp.jpg'; ?>">
       </a>
 </div>

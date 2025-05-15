@@ -42,21 +42,24 @@
                             <label for="nombre">Título</label>
                             <div class="input-group input-group-outline my-3">
                                 <label class="form-label" for="nombre">Título</label>
-                                <input id="nombre" class="form-control" type="text" name="nombre">
+                                <input id="nombre" class="form-control" type="text" name="nombre"  data-example="Ej: Pijama de Estrellas" required>
+                                <div class="invalid-feedback">Por favor ingrese un título.</div>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <label for="precio">Precio</label>
                             <div class="input-group input-group-outline my-3">
                                 <label class="form-label" for="precio">Precio</label>
-                                <input id="precio" class="form-control" type="text" name="precio">
+                                <input id="precio" class="form-control" type="number" name="precio" min="50" data-example="30000" required>
+                                <div class="invalid-feedback">Ingrese un precio válido.</div>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <label for="cantidad">Cantidad</label>
                             <div class="input-group input-group-outline my-3">
                                 <label class="form-label" for="cantidad">Cantidad</label>
-                                <input id="cantidad" class="form-control" type="number" name="cantidad">
+                                <input id="cantidad" class="form-control" type="number" name="cantidad" min="0" data-example="10" required>
+                                <div class="invalid-feedback">Debe indicar una cantidad mayor a 0.</div>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -68,19 +71,22 @@
                                         <option value="<?php echo $categoria['id']; ?>"><?php echo $categoria['categoria']; ?></option>
                                     <?php } ?>
                                 </select>
+                                <div class="invalid-feedback">Seleccione una categoría válida.</div>
                             </div>
                         </div>
 
                         <div class="col-md-5">
                             <label for="descripcion">Descripción</label>
                             <div class="input-group input-group-outline my-3">
-                                <textarea id="descripcion" name="descripcion" class="form-control" rows="3"></textarea>
+                                <textarea id="descripcion" name="descripcion" class="form-control" rows="3" placeholder="Descripción detallada del producto" required></textarea>
+                                <div class="invalid-feedback">Agregue una descripción.</div>
                             </div>
                         </div>
                         <div class="col-md-7">
-                        <label for="imagen">Imagen (Opcional)</label>
+                        <label for="imagen">Imagen</label>
                             <div class="input-group input-group-outline my-3">
-                                <input id="imagen" type="file" class="form-control" name="imagen">
+                                <input id="imagen" type="file" class="form-control" name="imagen" accept=".jpg,.jpeg,.png">
+                                <div class="invalid-feedback">Seleccione una imagen válida.</div>
                             </div>
                         </div>
                     </div>
@@ -123,6 +129,25 @@
 <?php include_once 'Views/template/footer-admin.php'; ?>
 
 <script src="<?php echo BASE_URL . 'assets/js/modulos/productos.js'; ?>"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const fields = document.querySelectorAll('#frmRegistro [data-example]');
+  fields.forEach(el => {
+    const example = el.getAttribute('data-example');
+    el.addEventListener('focus', () => { el.placeholder = example; });
+    el.addEventListener('blur', () => { el.placeholder = ''; });
+  });
+
+  const form = document.getElementById('frmRegistro');
+  form.addEventListener('submit', e => {
+    if (!form.checkValidity()) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    form.classList.add('was-validated');
+  });
+});
+</script>
 
 </body>
 
