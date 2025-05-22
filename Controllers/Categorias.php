@@ -41,7 +41,7 @@ class Categorias extends Controller
             $descripcion = $_POST['descripcion'];
             $id = $_POST['id'];
             if (empty($_POST['categoria']) || empty($_POST['descripcion'])) {
-                $respuesta = array('msg' => 'todo los campos son requeridos', 'icono' => 'warning');
+                $respuesta = array('msg' => 'todos los campos son requeridos', 'icono' => 'warning');
             } else {  
                 //registrar             
                 if (empty($id)) {

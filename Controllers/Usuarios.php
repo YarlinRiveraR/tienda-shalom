@@ -32,11 +32,11 @@ class Usuarios extends Controller
         echo json_encode($data);
         die();
     }
+    
+    //registrar usuario
     public function registrar()
     {
-        // Verifica si el campo 'nombre' está presente en la solicitud POST
         if (isset($_POST['nombre'])) {
-            // Asigna los valores de los campos de la solicitud POST a variables locales
             $nombre = $_POST['nombre'];
             $apellido = $_POST['apellido'];
             $correo = $_POST['correo'];
@@ -46,47 +46,34 @@ class Usuarios extends Controller
             // Hashea (encripta) la clave proporcionada
             $hash = password_hash($clave, PASSWORD_DEFAULT);
 
-            // Verifica si los campos 'nombre' o 'apellido' están vacíos
-            if (empty($_POST['nombre']) || empty($_POST['apellido'])) {
-                // Si están vacíos, se prepara una respuesta indicando que todos los campos son requeridos
+            if (empty($_POST['nombre']) || empty($_POST['apellido']) || empty($_POST['correo'])) {
                 $respuesta = array('msg' => 'todos los campos son requeridos', 'icono' => 'warning');
             } else {
-                // Si el campo 'id' está vacío, se realiza un registro de un nuevo usuario
                 if (empty($id)) {
-                    // Verifica si el correo ya existe en la base de datos
                     $result = $this->model->verificarCorreo($correo);
                     if (empty($result)) {
-                        // Si el correo no existe, intenta registrar el nuevo usuario
                         $data = $this->model->registrar($nombre, $apellido, $correo, $hash);
                         if ($data > 0) {
-                            // Si el registro es exitoso, prepara una respuesta de éxito
                             $respuesta = array('msg' => 'usuario registrado', 'icono' => 'success');
                         } else {
-                            // Si ocurre un error al registrar, prepara una respuesta de error
                             $respuesta = array('msg' => 'error al registrar', 'icono' => 'error');
                         }
                     } else {
-                        // Si el correo ya existe, prepara una respuesta indicando que el correo ya está registrado
                         $respuesta = array('msg' => 'correo ya existe', 'icono' => 'warning');
                     }
                 } else {
-                    // Si el campo 'id' no está vacío, se realiza una modificación de un usuario existente
                     $data = $this->model->modificar($nombre, $apellido, $correo, $id);
                     if ($data == 1) {
-                        // Si la modificación es exitosa, prepara una respuesta de éxito
                         $respuesta = array('msg' => 'usuario modificado', 'icono' => 'success');
                     } else {
-                        // Si ocurre un error al modificar, prepara una respuesta de error
                         $respuesta = array('msg' => 'error al modificar', 'icono' => 'error');
                     }
                 }
             }
 
-            // Envía la respuesta como JSON
             echo json_encode($respuesta);
         }
 
-        // Termina la ejecución del script
         die();
     }
 

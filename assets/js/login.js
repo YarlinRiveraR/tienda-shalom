@@ -23,7 +23,6 @@ const correoRecuperar = document.querySelector("#correoRecuperar");
 const frmRecuperarNewPass = document.querySelector("#frmRecuperarNewPass");
 const btnRecuperarNew = document.querySelector("#btnRecuperarNew");
 
-const pwdComplexity = /^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).*$/;
 
 document.addEventListener("DOMContentLoaded", function () {
   btnRegister.addEventListener("click", function () {
@@ -49,39 +48,51 @@ document.addEventListener("DOMContentLoaded", function () {
 
   //registro
   registrarse.addEventListener("click", function () {
-    const pwd = claveRegistro.value.trim();
-    const complexity = /^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).*$/;
-    if (!complexity.test(pwd)) {
-      return Swal.fire("Aviso?", "La contraseña debe tener ≥8 caracteres, mayúscula, minúscula, número y carácter especial.", "warning");
+  const nombre = nombreRegistro.value.trim();
+  const correo = correoRegistro.value.trim();
+  const pwd    = claveRegistro.value.trim();
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const complexity = /^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).*$/;
+
+  // 1) Campos vacíos
+  if (nombre === "" || correo === "" || pwd === "") {
+    return Swal.fire("Aviso?", "TODO LOS CAMPOS SON REQUERIDOS", "warning");
+  }
+  // 2) Correo inválido
+  if (!emailRe.test(correo)) {
+    return Swal.fire("Aviso?", "Ingresa un correo válido", "warning");
+  }
+  // 3) Complejidad de contraseña
+  if (!complexity.test(pwd)) {
+    return Swal.fire(
+      "Aviso?",
+      "La contraseña debe tener ≥8 caracteres, mayúscula, minúscula, número y carácter especial.",
+      "warning"
+    );
+  }
+
+  // si todo OK, seguimos con el registro
+  let formData = new FormData();
+  formData.append("nombre", nombre);
+  formData.append("clave", pwd);
+  formData.append("correo", correo);
+  const url = base_url + "clientes/registroDirecto";
+  const http = new XMLHttpRequest();
+  http.open("POST", url, true);
+  http.send(formData);
+  http.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const res = JSON.parse(this.responseText);
+      Swal.fire("Aviso?", res.msg, res.icono);
+      if (res.icono == "success") {
+        setTimeout(() => {
+          enviarCorreo(correo, res.token);
+        }, 2000);
+      }
     }
-    if (
-      nombreRegistro.value == "" ||
-      correoRegistro.value == "" ||
-      claveRegistro.value == ""
-    ) {
-      Swal.fire("Aviso?", "TODO LOS CAMPOS SON REQUERIDOS", "warning");
-    } else {
-      let formData = new FormData();
-      formData.append("nombre", nombreRegistro.value);
-      formData.append("clave", claveRegistro.value);
-      formData.append("correo", correoRegistro.value);
-      const url = base_url + "clientes/registroDirecto";
-      const http = new XMLHttpRequest();
-      http.open("POST", url, true);
-      http.send(formData);
-      http.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-          const res = JSON.parse(this.responseText);
-          Swal.fire("Aviso?", res.msg, res.icono);
-          if (res.icono == "success") {
-            setTimeout(() => {
-              enviarCorreo(correoRegistro.value, res.token);
-            }, 2000);
-          }
-        }
-      };
-    }
-  });
+  };
+});
+
   //login directo
   login.addEventListener("click", function () {
     if (correoLogin.value == "" || claveLogin.value == "") {

@@ -51,8 +51,8 @@ class Productos extends Controller
             $ruta = 'assets/images/productos/';
             $nombreImg = date('YmdHis');
 
-            if (empty($nombre) || empty($precio) || empty($cantidad) || empty($tmp_name)) {
-                $respuesta = array('msg' => 'todo los campos son requeridos', 'icono' => 'warning');
+            if ( empty($nombre) || empty($precio) || empty($cantidad) || ( empty($tmp_name) && empty($id))) {
+                $respuesta = ['msg' => 'todo los campos son requeridos', 'icono' => 'warning'];
             } else {
                 if (!empty($imagen['name'])) {
                     $destino = $ruta . $nombreImg . '.jpg';

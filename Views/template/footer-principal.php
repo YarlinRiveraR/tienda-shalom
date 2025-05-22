@@ -6,7 +6,7 @@
       <div class="col-md-4">
         <h5>Shalom Pijamas</h5>
         <p><i class="fas fa-map-marker-alt"></i> Calle 4N #7E-30 Los Pinos</p>
-        <p><i class="fas fa-phone"></i> +57 313 8284564</p>
+        <p><i class="fas fa-phone"></i> +57 311 5588268</p>
         <p><i class="fas fa-envelope"></i> yacquelinepa6045@gmail.com</p>
       </div>
 
@@ -140,7 +140,7 @@
 
 <!-- Botón de WhatsApp -->
 <div id="whatsapp-button">
-  <a href="https://wa.me/573138284564?text=¡Chatea Conmigo!" target="_blank">
+  <a href="https://wa.me/573115588268?text=¡Chatea Conmigo!" target="_blank">
     <img src="<?php echo BASE_URL . 'assets/images/whatsapp.jpg'; ?>">
       </a>
 </div>

@@ -60,7 +60,6 @@
    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/principal/slick/slick-theme.css">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
-   <!-- <script src="https://www.paypal.com/sdk/js?client-id=?php echo CLIENT_ID; ?>&currency=?php echo MONEDA; ?>"></script> -->
    <style>
       .table>tbody>tr>td {
          vertical-align: middle;
@@ -75,7 +74,7 @@
                   <i class="fa fa-envelope mx-2"></i>
                   <a class="navbar-sm-brand text-light text-decoration-none" href="https://mail.google.com/mail/?view=cm&fs=1&to=yacquelinepa6045@gmail.com" target="_blank">yacquelinepa6045@gmail.com</a>
                   <i class="fa fa-phone mx-2"></i>
-                  <a class="navbar-sm-brand text-light text-decoration-none" href="https://wa.me/573138284564" target="_blank">+57 313 8284564</a>
+                  <a class="navbar-sm-brand text-light text-decoration-none" href="https://wa.me/573115588268" target="_blank">+57 311 5588268</a>
                </div>
                 <div class="d-flex justify-content-end align-items-center">
                     <span class="me-2">Conoce nuestras redes | </span>

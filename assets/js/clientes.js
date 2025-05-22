@@ -60,7 +60,7 @@ function generarMensajeCarrito() {
             mensaje = mensaje.replace(/\n/g, '%0A');
 
             // Eliminar cualquier espacio en el número de teléfono
-            let telefono = "+573138284564".replace(/\s+/g, '');
+            let telefono = "+573115588268".replace(/\s+/g, '');
             
             // Probar primero con el protocolo de aplicación (más confiable en móviles)
             let urlWhatsApp = `whatsapp://send/?phone=${telefono}&text=${mensaje}`;
@@ -230,7 +230,6 @@ function verPedido(idPedido) {
 
 }
 
-// function calcularTotalCarrito() {
 //     const listaCarrito = JSON.parse(localStorage.getItem('listaCarrito')) || [];
 //     let total = 0;
 

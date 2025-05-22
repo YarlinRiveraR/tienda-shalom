@@ -218,18 +218,19 @@
   }
 
   .product-wap img {
-    max-height: 200px;
-    object-fit: contain;
-    width: 100%;
-  }
+        max-height: 200px; /* Ajustar según sea necesario */
+        object-fit: contain;
+        width: 100%;
+    }
 
-  .product-wap .card-body {
-    height: 100px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+    /* Establecer un tamaño fijo para el cuerpo de la tarjeta */
+    .product-wap .card-body {
+        height: 100px; /* Ajustar según sea necesario */
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
 </style>
 
 <?php include_once 'Views/template/footer-secundario.php'; ?>

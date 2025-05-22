@@ -140,7 +140,7 @@ function getListaCarrito() {
                     <td><span class="badge bg-warning">${res.moneda + ' ' + producto.precio}</span></td>
                     <td>${miTalla[i].talla}</td>
                     <td width="100">
-                    <input type="number" class="form-control agregarCantidad" id="${producto.id}" value="${producto.cantidad}">
+                    <input type="number" min="0" class="form-control agregarCantidad" id="${producto.id}" value="${producto.cantidad}">
                     </td>
                     <td>${producto.subTotal}</td>
                     <td>
