@@ -46,6 +46,7 @@ class Admin extends Controller
 
                     $mail = new PHPMailer(true);
                     try {
+                        //Configuración del servidor
                         $mail->SMTPDebug = 0;
                         $mail->isSMTP();
                         $mail->Host       = HOST_SMTP;        // Ej.: smtp.gmail.com
@@ -57,9 +58,24 @@ class Admin extends Controller
 
                         $mail->CharSet = 'UTF-8';
                         
+                        //Destinatarios
                         $mail->setFrom('pijamas.shalom.notificaciones@gmail.com', TITLE);
                         $mail->addAddress($correo);
 
+                        //Imagenes
+                        $mail->addEmbeddedImage(
+                            __DIR__ . '/../assets/images/facebook-logo-black.png',
+                            'facebook_logo'
+                        );
+                        $mail->addEmbeddedImage(
+                            __DIR__ . '/../assets/images/instagram-logo-black.png',
+                            'instagram_logo'
+                        );
+                        $mail->addEmbeddedImage(
+                            __DIR__ . '/../assets/images/logo_shalom_circularmodified_3.png',
+                            'logo_shalom'
+                        );
+                        
                         // Contenido del correo
                         $mail->isHTML(true);
                         $mail->Subject = 'Recuperación de Contraseña - ' . TITLE;
